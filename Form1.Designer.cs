@@ -43,6 +43,7 @@
             this.bStart.TabIndex = 0;
             this.bStart.Text = "Пуск";
             this.bStart.UseVisualStyleBackColor = true;
+            this.bStart.Click += new System.EventHandler(this.bStart_Click);
             // 
             // tbInput
             // 
@@ -50,6 +51,7 @@
             this.tbInput.Name = "tbInput";
             this.tbInput.Size = new System.Drawing.Size(100, 22);
             this.tbInput.TabIndex = 1;
+            this.tbInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbInput_KeyPress);
             // 
             // tClock
             // 
