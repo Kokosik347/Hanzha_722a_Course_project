@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 namespace Hanzha_722a_Course_project
 {
@@ -48,6 +49,7 @@ namespace Hanzha_722a_Course_project
                 tClock.Start();
                 bStart.Text = "Стоп"; // зміна тексту на кнопці на "Стоп"
                 this.Mode = false;
+                пускToolStripMenuItem.Text = "Стоп";
             }
             else
             {
@@ -58,6 +60,7 @@ namespace Hanzha_722a_Course_project
                 MajorObject.Write(tbInput.Text); // Запис даних у об'єкт
                 MajorObject.Task(); // Обробка даних
                 label1.Text = MajorObject.Read(); // Відображення результату
+                пускToolStripMenuItem.Text = "Старт";
             }
         }
 
@@ -84,6 +87,72 @@ namespace Hanzha_722a_Course_project
             string s;
             s = (System.DateTime.Now - MajorObject.GetTime()).ToString();
             MessageBox.Show(s, "Час роботи програми");
+        }
+
+        private void файлToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void проНакопиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string[] disks = System.IO.Directory.GetLogicalDrives(); // Строковий масив з логічніх дисків
+            string disk = "";
+            for (int i = 0; i < disks.Length; i++)
+            {
+                try
+                {
+                    System.IO.DriveInfo D = new System.IO.DriveInfo(disks[i]);
+                    if (D.IsReady)
+                    {
+                        double totalSizeGB = D.TotalSize / 1073741824.0; // Переведення байтів в гігабайти
+                        double totalFreeSpaceGB = D.TotalFreeSpace / 1073741824.0; // Переведення байтів в гігабайти
+                        disk += $"{D.Name} - Загальний об'єм: {totalSizeGB:F2} ГБ - Вільне місце: {totalFreeSpaceGB:F2} ГБ" + Environment.NewLine;
+                        // змінній присвоюється ім’я диска, загальна кількість місця і вільне місце на диску
+                    }
+                    else
+                    {
+                        disk += $"{disks[i]} - не готовий" + Environment.NewLine;
+                    }
+                }
+                catch
+                {
+                    disk += $"{disks[i]} - помилка" + Environment.NewLine;
+                }
+            }
+            MessageBox.Show(disk, "Накопичувачі");
+        }
+
+        private void вихідToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void проПрограмуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            About A = new About();
+            A.ShowDialog();
+        }
+
+        private void зберегтиЯкToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sfdSave.ShowDialog() == DialogResult.OK)// Виклик діалогового вікна збереження файлу
+{
+                MessageBox.Show(sfdSave.FileName);
+            }
+        }
+
+        private void відкритиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ofdOpen.ShowDialog() == DialogResult.OK) // Виклик діалогового вікна відкриття файлу
+            {
+                MessageBox.Show(ofdOpen.FileName);
+            }
         }
     }
 }

@@ -31,5 +31,10 @@ namespace Hanzha_722a_Course_project
         {
             Close();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }
