@@ -9,9 +9,18 @@ namespace Surname_Group_Course_project
     {
         // Вміст робочого об'єкта
         // Поля
+        private System.DateTime TimeBegin; // час початку роботи програми
         private string Data; //вхідні дані
         private string Result; // Поле результату
                                // Методи
+        public void SetTime() // метод запису часу початку роботи програми
+        {
+            this.TimeBegin = System.DateTime.Now;
+        }
+        public System.DateTime GetTime() // Метод отримання часу завершення програми
+        {
+            return this.TimeBegin;
+        }
         public void Write(string D)// метод запису даних в об'єкт.
         {
             this.Data = D;

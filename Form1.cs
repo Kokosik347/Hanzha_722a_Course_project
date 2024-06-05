@@ -35,6 +35,8 @@ namespace Hanzha_722a_Course_project
             A.ShowDialog(); // відображення діалогового вікна About
             MajorObject = new MajorWork();
             this.Mode = true;
+            MajorObject = new MajorWork();
+            MajorObject.SetTime();
         }
 
         private void bStart_Click(object sender, EventArgs e)
@@ -75,6 +77,13 @@ namespace Hanzha_722a_Course_project
                 tClock.Start();
                 e.KeyChar = (char)0;
             }
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            string s;
+            s = (System.DateTime.Now - MajorObject.GetTime()).ToString();
+            MessageBox.Show(s, "Час роботи програми");
         }
     }
 }
