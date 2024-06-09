@@ -160,7 +160,10 @@ namespace Hanzha_722a_Course_project
         private void зберегтиToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MajorObject.SaveFileNameExists()) // задане ім’я файлу існує?
-                MajorObject.SaveToFile(); // зберегти дані в файл
+            {
+                MajorObject.WriteOpenFileName(ofdOpen.FileName); // відкриття
+                MajorObject.ReadFromFile(dgwOpen); // читання даних з файлу
+            }
             else
                 зберегтиЯкToolStripMenuItem_Click(sender, e);
         }
@@ -178,6 +181,11 @@ namespace Hanzha_722a_Course_project
                 if (MessageBox.Show("Дані не були збережені. Продовжити вихід?", "УВАГА",
                 MessageBoxButtons.YesNo) == DialogResult.No)
                     e.Cancel = true; // припинити закриття
+        }
+
+        private void bSearch_Click(object sender, EventArgs e)
+        {
+            MajorObject.Find(tbSearch.Text); //пошук
         }
     }
 }
