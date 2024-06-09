@@ -36,5 +36,15 @@ namespace Hanzha_722a_Course_project
         {
             Close();
         }
+
+        private void timer1_Tick_1(object sender, EventArgs e)
+        {
+            timer1.Stop();
+            if (progressBar1.Value < 100)
+            {
+                progressBar1.Value += 1;
+            }
+            timer1.Start();
+        }
     }
 }
