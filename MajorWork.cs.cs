@@ -7,6 +7,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 using static System.Net.WebRequestMethods;
+using File = System.IO.File;
 
 namespace Hanzha_722a_Course_project
 {
@@ -27,6 +28,36 @@ namespace Hanzha_722a_Course_project
         private string SaveFileName;
         private string OpenFileName;
 
+        public Buffer D { get; private set; }
+
+        public void ReadFromFile(System.Windows.Forms.DataGridView DG) // зчитування з файлу
+        {
+            try
+            {
+                if (!File.Exists(this.OpenFileName))
+                {
+                    MessageBox.Show("Файлу немає"); // Виведення на екран повідомлення "файлу немає"
+                    return;
+                }
+                Stream S; // створення потоку
+                S = File.Open(this.OpenFileName, FileMode.Open); // зчитування даних з файлу Buffer D;
+                object O; // буферна змінна для контролю формату
+                BinaryFormatter BF = new BinaryFormatter(); // створення об'єкту для форматування
+
+                while (S.Position < S.Length)
+                {
+                    O = BF.Deserialize(S); // десеріалізація
+                    D = O as Buffer;
+                    if (D == null) break;
+                    // Виведення даних на екран
+                }
+                S.Close(); // закриття
+            }
+            catch
+            {
+                MessageBox.Show("Помилка файлу"); // Виведення на екран повідомлення "Помилка файлу"
+            }
+        } // ReadFromFile закінчився
         public void WriteSaveFileName(string S) // метод запису даних до об'єкту
         {
             this.SaveFileName = S;
@@ -38,6 +69,7 @@ namespace Hanzha_722a_Course_project
         }
 
         // Методи
+
         public void SaveToFile() // Запис даних до файлу
         {
             if (!this.Modify)
@@ -45,16 +77,16 @@ namespace Hanzha_722a_Course_project
             try
             {
                 Stream S;
-                if (System.IO.File.Exists(this.SaveFileName)) // існує файл?.уточнити, який File ви маєте на увазі в коді.
-                    S = System.IO.File.Open(this.SaveFileName, FileMode.Append); // Відкриття збереженого файлу.уточнити, який File ви маєте на увазі в коді.
+                if (System.IO.File.Exists(this.SaveFileName)) // існує файл?
+                    S = System.IO.File.Open(this.SaveFileName, FileMode.Append); // Відкриття збереженого файлу
                 else
-                    S = System.IO.File.Open(this.SaveFileName, FileMode.Create); // створення нового файлу.уточнити, який File ви маєте на увазі в коді.
+                    S = System.IO.File.Open(this.SaveFileName, FileMode.Create); // створення нового файлу
 
                 Buffer D = new Buffer();
                 D.Data = this.Data;
                 D.Result = Convert.ToString(this.Result);
                 D.Key = Key;
-
+                Key++;
                 BinaryFormatter BF = new BinaryFormatter();
                 BF.Serialize(S, D);
                 S.Flush(); // очищення буфера потоку
@@ -66,7 +98,45 @@ namespace Hanzha_722a_Course_project
                 Console.WriteLine("Помилка роботи з файлом"); // Виведення на екран повідомлення "Помилка роботи з файлом"
             }
         }
-
+        public bool SaveFileNameExists()
+        {
+            if (this.SaveFileName == null)
+                return false;
+            else return true;
+        }
+        public void NewRec() // новий запис
+        {
+            this.Data = ""; // "" - ознака порожнього рядка
+            this.Result = null; // для рядка - null
+        }
+        public void Generator() // метод формування ключового поля
+        {
+            try
+            {
+                if (!File.Exists(this.SaveFileName)) // існує файл?
+                {
+                    Key = 1;
+                    return;
+                }
+                Stream S; // створення потоку
+                S = File.Open(this.SaveFileName, FileMode.Open); // Відкриття
+                object O; // буферна змінна для контролю формату
+                BinaryFormatter BF = new BinaryFormatter(); // створення елемента для форматування
+                while (S.Position < S.Length)
+                {
+                    O = BF.Deserialize(S);
+                    D = O as Buffer;
+                    if (D == null) break;
+                    Key = D.Key;
+                }
+                Key++;
+                S.Close();
+            }
+            catch
+            {
+                MessageBox.Show("Помилка файлу"); // Виведення на екран повідомлення "Помилка файлу"
+            }
+        }
         public void SetTime()
         {
             this.TimeBegin = DateTime.Now;
