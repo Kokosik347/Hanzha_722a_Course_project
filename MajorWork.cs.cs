@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
+using System.Collections;
 using static System.Net.WebRequestMethods;
 using File = System.IO.File;
 
@@ -27,6 +28,12 @@ namespace Hanzha_722a_Course_project
         private int Key; // поле ключа
         private string SaveFileName;
         private string OpenFileName;
+
+        public Stack myStack = new Stack();
+        public string[] myArr = new string[100];
+
+        public Queue myQueue = new Queue();
+        public string[] smyQueue = new string[100];
 
         public Buffer D { get; private set; }
 
