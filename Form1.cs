@@ -1,4 +1,4 @@
-﻿using Surname_Group_Course_project;
+﻿using Hanzha_722a_Course_project;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,6 +38,7 @@ namespace Hanzha_722a_Course_project
             this.Mode = true;
             MajorObject = new MajorWork();
             MajorObject.SetTime();
+            MajorObject.Modify = false;// заборона запису
         }
 
         private void bStart_Click(object sender, EventArgs e)
@@ -141,13 +142,13 @@ namespace Hanzha_722a_Course_project
 
         private void зберегтиЯкToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (sfdSave.ShowDialog() == DialogResult.OK)// Виклик діалогового вікна збереження файлу
-{
-                MessageBox.Show(sfdSave.FileName);
+            if (sfdSave.ShowDialog() == DialogResult.OK) // Виклик діалогового вікна збереження
+            {
+                MajorObject.WriteSaveFileName(sfdSave.FileName); // написання імені файлу
+                MajorObject.SaveToFile(); // метод збереження в файл 
             }
         }
-
-        private void відкритиToolStripMenuItem_Click(object sender, EventArgs e)
+            private void відкритиToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (ofdOpen.ShowDialog() == DialogResult.OK) // Виклик діалогового вікна відкриття файлу
             {
